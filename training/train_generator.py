@@ -1,4 +1,5 @@
 import pandas as pd
+import sys
 from pathlib import Path
 from datasets import Dataset
 from transformers import T5Tokenizer, T5ForConditionalGeneration
@@ -6,7 +7,11 @@ from transformers import Trainer, TrainingArguments
 
 # Load dataset
 BASE_DIR = Path(__file__).resolve().parent.parent
-data_path = BASE_DIR / "data" / "processed" / "debate_dataset.csv"
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+training_pairs_path = BASE_DIR / "data" / "processed" / "training_pairs.csv"
+data_path = training_pairs_path if training_pairs_path.exists() else BASE_DIR / "data" / "processed" / "debate_dataset.csv"
 
 print("Loading dataset...")
 df = pd.read_csv(data_path)
@@ -14,13 +19,16 @@ df = pd.read_csv(data_path)
 print("Dataset size:", df.shape)
 
 # Create model inputs
-df["input_text"] = (
-    "Topic: " + df["topic"] +
-    " Evidence: " + df["evidence_text"] +
-    " Generate an argument."
-)
-
-df["target_text"] = df["claim"]
+if {"generator_input", "generator_target"}.issubset(df.columns):
+    df["input_text"] = df["generator_input"]
+    df["target_text"] = df["generator_target"]
+else:
+    df["input_text"] = (
+        "Topic: " + df["topic"] +
+        " Evidence: " + df["evidence_text"] +
+        " Generate an argument."
+    )
+    df["target_text"] = df["claim"]
 
 dataset = Dataset.from_pandas(df[["input_text", "target_text"]])
 

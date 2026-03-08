@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
 from agents.prosecutor import ProsecutorAgent
 from agents.defense import DefenseAgent
 from agents.judge import JudgeAgent
@@ -22,10 +29,10 @@ print("\nDefense Argument:")
 print(defense_argument)
 
 # judge evaluation
-p_score, d_score, winner = judge.evaluate(topic, prosecutor_argument, defense_argument)
+result = judge.evaluate(topic, prosecutor_argument, defense_argument)
 
 print("\nScores:")
-print("Prosecutor:", p_score)
-print("Defense:", d_score)
+print("Prosecutor:", result["prosecutor"])
+print("Defense:", result["defense"])
 
-print("\nWinner:", winner)
+print("\nWinner:", result["winner"])
