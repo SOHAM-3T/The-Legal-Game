@@ -164,8 +164,8 @@ score =
 
 Where:
 
-- `topic_overlap` = lexical Jaccard similarity between the user topic and the dataset topic
-- `query_overlap` = lexical Jaccard similarity between the prosecutor argument and the candidate claim
+- `topic_overlap` = cosine similarity between the user topic and the dataset topic
+- `query_overlap` = cosine similarity between the prosecutor argument and the candidate claim
 - `evidence_weight` = a prior weight based on evidence type
 
 The intention is:
@@ -174,20 +174,25 @@ The intention is:
 - prefer candidates that are less similar to the prosecutor argument
 - slightly prefer stronger evidence categories
 
-### Lexical Jaccard Similarity
+### TF-IDF Cosine Similarity
 
-The helper function tokenizes text into lowercase word tokens and computes:
+The similarity baseline now uses TF-IDF vectors with cosine similarity.
+
+The vectorizer:
+
+- removes English stop words
+- uses unigrams and bigrams with `ngram_range=(1, 2)`
+- is fit on cleaned text from the local corpus
+
+The similarity formula is:
 
 ```text
-Jaccard(A, B) = |A ∩ B| / |A ∪ B|
+cosine(x, y) = (x . y) / (||x|| ||y||)
 ```
 
-Where:
+Where `x` and `y` are TF-IDF vectors for two texts.
 
-- `A` is the set of tokens from the first text
-- `B` is the set of tokens from the second text
-
-If either side has no tokens, the score is `0.0`.
+This makes similarity sensitive to shared terms and phrases, but more flexible than raw token-set overlap.
 
 ### Evidence Type Weights
 
@@ -203,18 +208,18 @@ These weights are heuristic priors, not learned values.
 
 ## How Weak Labels Are Created
 
-`preprocessing/create_training_pairs.py` creates a `stance` column using lexical overlap between a claim and its linked evidence.
+`preprocessing/create_training_pairs.py` creates a `stance` column using cosine similarity between a claim and its linked evidence.
 
 For each row:
 
 ```text
-claim_evidence_overlap = Jaccard(claim, evidence_text)
+claim_evidence_similarity = cosine(claim, evidence_text)
 ```
 
 Then:
 
 ```text
-if claim_evidence_overlap >= 0.08:
+if claim_evidence_similarity >= 0.12:
     stance = "support"
 else:
     stance = "oppose"
@@ -239,10 +244,10 @@ Then it computes a weighted total.
 Defined as:
 
 ```text
-relevance = Jaccard(topic, argument)
+relevance = cosine(topic, argument)
 ```
 
-This measures lexical overlap between the debate topic and the generated argument.
+This measures TF-IDF cosine similarity between the debate topic and the generated argument.
 
 ### 2. Coherence
 
@@ -304,7 +309,7 @@ Examples:
 Novelty measures how different one side is from the opponent:
 
 ```text
-novelty = max(0.0, 1.0 - Jaccard(opponent_argument, argument))
+novelty = max(0.0, 1.0 - cosine(opponent_argument, argument))
 ```
 
 So:

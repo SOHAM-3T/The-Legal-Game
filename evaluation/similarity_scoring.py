@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from utils.helpers import lexical_jaccard, tokenize_words
+from utils.helpers import cosine_text_similarity, tokenize_words
 
 
 def topical_relevance(topic: str, argument: str) -> float:
-    return lexical_jaccard(topic, argument)
+    return cosine_text_similarity(topic, argument)
 
 
 def novelty_score(reference_argument: str, candidate_argument: str) -> float:
-    overlap = lexical_jaccard(reference_argument, candidate_argument)
+    overlap = cosine_text_similarity(reference_argument, candidate_argument)
     return max(0.0, 1.0 - overlap)
 
 

@@ -4,16 +4,7 @@ from agents.defense import DefenseAgent
 from agents.judge import JudgeAgent
 from agents.prosecutor import ProsecutorAgent
 from debate_engine.debate_round import DebateRound
-from utils.helpers import clean_text, summarize_evidence
-
-
-def build_rebuttal_evidence(base_evidence: str, prior_argument: str, round_index: int) -> str:
-    summary = summarize_evidence(base_evidence, max_sentences=1)
-    prior_summary = clean_text(prior_argument)
-    return (
-        f"{summary} Round {round_index} focus: respond directly to this prior argument: "
-        f"{prior_summary}"
-    )
+from utils.helpers import clean_text
 
 
 def run_debate(topic, evidence, rounds=2):
@@ -22,14 +13,14 @@ def run_debate(topic, evidence, rounds=2):
     judge = JudgeAgent()
 
     debate_rounds = []
-    current_evidence = evidence
     prior_defense_argument = ""
 
     for round_index in range(1, rounds + 1):
-        if prior_defense_argument:
-            current_evidence = build_rebuttal_evidence(evidence, prior_defense_argument, round_index)
-
-        prosecutor_argument = prosecutor.generate_argument(topic, current_evidence)
+        prosecutor_argument = prosecutor.generate_argument(
+            topic,
+            evidence=evidence,
+            rebuttal_context=prior_defense_argument,
+        )
         defense_argument = defense.generate_counter_argument(topic, prosecutor_argument)
 
         result = judge.evaluate(topic, prosecutor_argument, defense_argument)

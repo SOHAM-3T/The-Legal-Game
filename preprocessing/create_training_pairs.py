@@ -12,8 +12,9 @@ if str(BASE_DIR) not in sys.path:
 from utils.helpers import (
     TRAINING_PAIRS_PATH,
     clean_text,
+    cosine_text_similarity,
+    estimate_stance_signal,
     ensure_processed_dir,
-    lexical_jaccard,
     load_debate_dataset,
 )
 
@@ -23,8 +24,9 @@ def infer_support_bucket(topic_df: pd.DataFrame) -> pd.DataFrame:
     for row in topic_df.itertuples(index=False):
         claim = clean_text(row.claim)
         evidence = clean_text(row.evidence_text)
-        score = lexical_jaccard(claim, evidence)
-        stance = "support" if score >= 0.08 else "oppose"
+        similarity_score = cosine_text_similarity(claim, evidence)
+        stance_signal = estimate_stance_signal(row.topic, claim, evidence)
+        stance = "support" if stance_signal > 0 or (stance_signal == 0 and similarity_score >= 0.2) else "oppose"
         records.append(
             {
                 "topic": clean_text(row.topic),
@@ -32,8 +34,14 @@ def infer_support_bucket(topic_df: pd.DataFrame) -> pd.DataFrame:
                 "evidence_text": evidence,
                 "evidence_type": clean_text(row.evidence_type),
                 "stance": stance,
-                "claim_evidence_overlap": round(score, 4),
-                "generator_input": f"Topic: {clean_text(row.topic)} Evidence: {evidence} Generate an argument.",
+                "claim_evidence_similarity": round(similarity_score, 4),
+                "stance_signal": round(stance_signal, 4),
+                "generator_input": (
+                    f"Topic: {clean_text(row.topic)} "
+                    f"Stance: {stance} "
+                    f"Evidence: {evidence} "
+                    f"Generate a {stance} argument."
+                ),
                 "generator_target": claim,
             }
         )

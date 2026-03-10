@@ -9,16 +9,23 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 from debate_engine.debate_loop import run_debate
-from utils.helpers import load_debate_dataset
+from utils.helpers import load_debate_dataset, load_training_pairs
 
 
 def resolve_example(topic_query: str = "") -> tuple[str, str]:
-    df = load_debate_dataset()
+    df = load_training_pairs()
+    if not df.empty and "stance" in df.columns:
+        df = df[df["stance"] == "support"].reset_index(drop=True)
+    if df.empty:
+        df = load_debate_dataset()
     if topic_query:
         mask = df["topic"].str.contains(topic_query, case=False, regex=False)
         if mask.any():
             row = df[mask].iloc[0]
             return row["topic"], row["evidence_text"]
+
+    if df.empty:
+        raise ValueError("No processed dataset available. Run preprocessing/load_data.py and preprocessing/create_training_pairs.py first.")
 
     row = df.iloc[0]
     return row["topic"], row["evidence_text"]
