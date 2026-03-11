@@ -7,6 +7,17 @@ from debate_engine.debate_round import DebateRound
 from utils.helpers import clean_text
 
 
+def serialize_round(round_data: DebateRound) -> dict:
+    return {
+        "round_index": round_data.round_index,
+        "prosecutor_argument": round_data.prosecutor_argument,
+        "defense_argument": round_data.defense_argument,
+        "winner": round_data.winner,
+        "prosecutor_score": round_data.prosecutor_score,
+        "defense_score": round_data.defense_score,
+    }
+
+
 def run_debate(topic, evidence, rounds=2):
     prosecutor = ProsecutorAgent()
     defense = DefenseAgent()
@@ -14,14 +25,28 @@ def run_debate(topic, evidence, rounds=2):
 
     debate_rounds = []
     prior_defense_argument = ""
+    used_prosecutor_claims = set()
+    used_defense_claims = set()
+    selected_input_evidence = clean_text(evidence)
 
     for round_index in range(1, rounds + 1):
-        prosecutor_argument = prosecutor.generate_argument(
+        prosecutor_result = prosecutor.generate_argument(
             topic,
             evidence=evidence,
             rebuttal_context=prior_defense_argument,
+            exclude_claims=used_prosecutor_claims,
         )
-        defense_argument = defense.generate_counter_argument(topic, prosecutor_argument)
+        prosecutor_argument = prosecutor_result["argument"]
+        used_prosecutor_claims.add(prosecutor_result["claim"])
+        selected_input_evidence = prosecutor_result["evidence_text"] or selected_input_evidence
+
+        defense_result = defense.generate_counter_argument(
+            topic,
+            prosecutor_argument,
+            exclude_claims=used_defense_claims | used_prosecutor_claims,
+        )
+        defense_argument = defense_result["argument"]
+        used_defense_claims.add(defense_result["claim"])
 
         result = judge.evaluate(topic, prosecutor_argument, defense_argument)
         debate_rounds.append(
@@ -49,7 +74,9 @@ def run_debate(topic, evidence, rounds=2):
 
     return {
         "topic": clean_text(topic),
+        "input_evidence": clean_text(selected_input_evidence),
         "rounds": debate_rounds,
+        "rounds_data": [serialize_round(round_data) for round_data in debate_rounds],
         "overall_winner": overall_winner,
         "scoreboard": {
             "prosecutor_round_wins": prosecutor_wins,

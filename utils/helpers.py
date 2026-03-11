@@ -86,6 +86,7 @@ def clean_text(text: str) -> str:
     text = text.replace("â€¦", "...")
     text = text.replace("â€™", "'")
     text = re.sub(r"\[REF[^\]]*\]", "", text)
+    text = re.sub(r"\[REF\b.*$", "", text)
     text = re.sub(r"\[[A-Z]+\]$", "", text).strip()
     return normalize_whitespace(text)
 

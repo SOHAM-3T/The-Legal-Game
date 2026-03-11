@@ -21,26 +21,12 @@ class JudgeAgent:
         prosecutor_total = prosecutor_scores["total"]
         defense_total = defense_scores["total"]
 
-        if self.model and self.feature_names:
-            import pandas as pd
-
-            feature_row = pd.DataFrame([{
-                "pro_total": prosecutor_total,
-                "def_total": defense_total,
-                "pro_relevance": prosecutor_scores["relevance"],
-                "def_relevance": defense_scores["relevance"],
-                "pro_evidence": prosecutor_scores["evidence"],
-                "def_evidence": defense_scores["evidence"],
-            }]).reindex(columns=self.feature_names, fill_value=0.0)
-            prediction = int(self.model.predict(feature_row)[0])
-            winner = "Prosecutor" if prediction == 1 else "Defense"
+        if prosecutor_total > defense_total:
+            winner = "Prosecutor"
+        elif defense_total > prosecutor_total:
+            winner = "Defense"
         else:
-            if prosecutor_total > defense_total:
-                winner = "Prosecutor"
-            elif defense_total > prosecutor_total:
-                winner = "Defense"
-            else:
-                winner = "Tie"
+            winner = "Tie"
 
         return {
             "prosecutor": prosecutor_scores,
