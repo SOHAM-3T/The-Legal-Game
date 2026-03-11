@@ -1,10 +1,7 @@
 from pathlib import Path
 import json
-
 import joblib
-
 from evaluation.argument_quality import score_argument
-
 
 class JudgeAgent:
     def __init__(self):

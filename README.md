@@ -482,9 +482,6 @@ This script uses `training_pairs.csv` when available, otherwise it falls back to
 - Produces explainable judge scores
 - Can run even when the prosecutor model cannot be loaded
 
-## Current Limitations
-
-- Weak stance labels are heuristic, not human-annotated
-- The judge model is weakly supervised, not gold-labeled
-- Retrieval is lexical and rule-based, not yet a learned reranker
-- The prosecutor model still depends on local model files and tokenizer support
+## Model Usage
+- The model that was used in this codebase is on hugging face, check it out.. 👇
+- https://huggingface.co/Soham3T/debate-engine-fine-tuned-google-Flan-T5-small/tree/main
