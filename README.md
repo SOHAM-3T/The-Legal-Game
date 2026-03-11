@@ -484,4 +484,5 @@ This script uses `training_pairs.csv` when available, otherwise it falls back to
 
 ## Model Usage
 - The model that was used in this codebase is on hugging face, check it out.. 👇
-- https://huggingface.co/Soham3T/debate-engine-fine-tuned-google-Flan-T5-small/tree/main
+- https://huggingface.co/Soham3T/legal-debate-prosecutor/tree/main
+- https://huggingface.co/Soham3T/legal-debate-judge/tree/main
