@@ -27,164 +27,218 @@ APP_CSS = """
 <style>
     .stApp {
         background:
-            radial-gradient(circle at top left, rgba(163, 132, 74, 0.14), transparent 28%),
-            linear-gradient(180deg, #f6f2ea 0%, #f3efe7 48%, #ece6db 100%);
-        color: #18202b;
+            radial-gradient(circle at 12% 0%, rgba(175, 118, 31, 0.18), transparent 22%),
+            radial-gradient(circle at 100% 20%, rgba(28, 47, 76, 0.10), transparent 25%),
+            linear-gradient(180deg, #f3ede2 0%, #ece4d6 52%, #e4dbc9 100%);
+        color: #17212b;
     }
     .block-container {
-        padding-top: 2.2rem;
-        padding-bottom: 2.5rem;
         max-width: 1200px;
+        padding-top: 1.5rem;
+        padding-bottom: 3rem;
     }
-    .hero-card, .panel-card, .winner-card, .metric-card {
-        border-radius: 22px;
-        border: 1px solid rgba(24, 32, 43, 0.09);
-        background: rgba(255, 252, 247, 0.86);
-        box-shadow: 0 18px 45px rgba(35, 40, 48, 0.08);
-        backdrop-filter: blur(8px);
+    h1, h2, h3, h4 {
+        color: #17212b;
+        letter-spacing: -0.02em;
+    }
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #152033 0%, #1c2a41 100%);
+        border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    [data-testid="stSidebar"] * {
+        color: #f7f5ef;
+    }
+    .hero-card, .surface-card, .winner-card, .summary-card, .round-card {
+        border-radius: 24px;
+        border: 1px solid rgba(23, 33, 43, 0.08);
+        box-shadow: 0 18px 48px rgba(32, 27, 14, 0.08);
     }
     .hero-card {
-        padding: 1.8rem 2rem;
-        margin-bottom: 1.2rem;
+        background: linear-gradient(135deg, rgba(255,250,243,0.96), rgba(246,240,230,0.96));
+        padding: 1.6rem 1.8rem 1.4rem;
+        margin-bottom: 1.25rem;
     }
     .hero-eyebrow {
-        font-size: 0.86rem;
-        letter-spacing: 0.14em;
+        font-size: 0.78rem;
         text-transform: uppercase;
-        color: #8d6a2f;
-        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: #966a1d;
+        font-weight: 800;
+        margin-bottom: 0.55rem;
     }
     .hero-title {
-        font-size: 3rem;
-        line-height: 1;
-        margin: 0.4rem 0 0.85rem 0;
-        font-weight: 800;
-        color: #18202b;
+        font-size: 2.9rem;
+        line-height: 0.98;
+        margin: 0;
+        font-weight: 900;
+        color: #17212b;
     }
     .hero-copy {
-        font-size: 1.06rem;
-        line-height: 1.75;
-        color: #334155;
-        max-width: 52rem;
+        margin-top: 0.8rem;
+        font-size: 1.01rem;
+        line-height: 1.7;
+        color: #4a5563;
+        max-width: 53rem;
     }
-    .hero-strip {
-        margin-top: 1.35rem;
+    .hero-grid {
+        margin-top: 1.1rem;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.9rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.85rem;
     }
-    .role-chip {
-        padding: 1rem 1.1rem;
+    .role-panel {
         border-radius: 18px;
-        background: linear-gradient(180deg, rgba(250,245,238,0.96), rgba(244,237,227,0.9));
-        border: 1px solid rgba(141, 106, 47, 0.18);
+        border: 1px solid rgba(150, 106, 29, 0.18);
+        background: rgba(255, 250, 242, 0.78);
+        padding: 1rem 1rem 0.95rem;
     }
-    .role-chip strong {
-        display: block;
-        color: #18202b;
-        margin-bottom: 0.25rem;
+    .role-title {
+        font-size: 1.05rem;
+        font-weight: 800;
+        margin-bottom: 0.28rem;
+        color: #17212b;
+    }
+    .role-copy {
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: #4a5563;
     }
     .section-label {
-        font-size: 0.82rem;
+        font-size: 0.8rem;
         text-transform: uppercase;
-        letter-spacing: 0.13em;
-        color: #8d6a2f;
-        font-weight: 700;
-        margin-bottom: 0.7rem;
+        letter-spacing: 0.18em;
+        color: #966a1d;
+        font-weight: 800;
+        margin: 0.55rem 0 0.7rem;
     }
-    .panel-card {
-        padding: 1.35rem 1.4rem 1.45rem;
-        margin-bottom: 1.2rem;
+    .surface-card {
+        background: rgba(255, 252, 247, 0.88);
+        padding: 1.15rem;
+        margin-bottom: 1rem;
+    }
+    .field-note {
+        font-size: 0.92rem;
+        line-height: 1.55;
+        color: #566172;
+        margin-top: -0.15rem;
+        margin-bottom: 0.75rem;
     }
     .winner-card {
+        background: linear-gradient(135deg, #162335 0%, #253851 100%);
+        color: #f8fafc;
         padding: 1.35rem 1.4rem;
         margin-bottom: 1rem;
-        background: linear-gradient(135deg, rgba(30,58,95,0.96), rgba(82, 104, 132, 0.92));
+        border: none;
+    }
+    .winner-label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-weight: 800;
+        opacity: 0.82;
+    }
+    .winner-name {
+        font-size: 2.15rem;
+        line-height: 1.05;
+        font-weight: 900;
+        margin-top: 0.35rem;
+    }
+    .winner-copy {
+        margin-top: 0.55rem;
+        font-size: 0.98rem;
+        opacity: 0.92;
+    }
+    .summary-card {
+        background: rgba(255, 252, 247, 0.88);
+        padding: 1rem 1.05rem;
+        min-height: 132px;
+    }
+    .summary-label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: #966a1d;
+        font-weight: 800;
+    }
+    .summary-value {
+        margin-top: 0.35rem;
+        font-size: 1.8rem;
+        line-height: 1.05;
+        font-weight: 900;
+        color: #17212b;
+    }
+    .summary-copy {
+        margin-top: 0.4rem;
+        color: #4a5563;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        word-break: break-word;
+    }
+    .round-shell {
+        margin-bottom: 0.8rem;
+    }
+    .score-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-bottom: 0.9rem;
+    }
+    .score-badge {
+        border-radius: 999px;
+        padding: 0.48rem 0.82rem;
+        border: 1px solid rgba(150, 106, 29, 0.14);
+        background: rgba(150, 106, 29, 0.08);
+        font-size: 0.92rem;
+        color: #35404f;
+    }
+    .mini-note {
+        border-radius: 16px;
+        padding: 0.9rem 1rem;
+        background: linear-gradient(180deg, rgba(22,35,53,0.95), rgba(35,56,81,0.95));
+        color: #f7f8fb;
+        line-height: 1.6;
+    }
+    .mini-note strong {
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+    .stTextInput label, .stTextArea label, .stSelectbox label, .stSlider label {
+        font-weight: 700 !important;
+        color: #17212b !important;
+    }
+    .stButton > button {
+        border-radius: 14px;
+        min-height: 3rem;
+        font-weight: 800;
+        border: 1px solid rgba(23, 33, 43, 0.08);
+    }
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #162335 0%, #22354d 100%);
         color: #f8fafc;
         border: none;
     }
-    .winner-title {
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        opacity: 0.85;
-        margin-bottom: 0.45rem;
-        font-weight: 700;
-    }
-    .winner-name {
-        font-size: 2.1rem;
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 0.35rem;
-    }
-    .winner-sub {
-        opacity: 0.92;
-        font-size: 1rem;
-    }
-    .metric-card {
-        padding: 1rem 1.05rem;
-        min-height: 118px;
-    }
-    .metric-label {
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: #8d6a2f;
-        font-weight: 700;
-    }
-    .metric-value {
-        font-size: 1.9rem;
-        line-height: 1.1;
-        font-weight: 800;
-        color: #18202b;
-        margin: 0.35rem 0 0.25rem;
-    }
-    .metric-copy {
-        color: #475569;
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
-    .round-score {
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin: 0.8rem 0 1rem;
-        font-size: 0.95rem;
-        color: #334155;
-    }
-    .score-pill {
-        padding: 0.5rem 0.85rem;
-        border-radius: 999px;
-        background: rgba(141, 106, 47, 0.08);
-        border: 1px solid rgba(141, 106, 47, 0.12);
-    }
-    .topic-note {
-        padding: 0.8rem 0.95rem;
-        border-radius: 14px;
-        background: rgba(15, 23, 42, 0.04);
-        color: #334155;
-        line-height: 1.6;
-        margin-top: 0.75rem;
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #1d3550 0%, #b07a26 100%);
     }
     @media (max-width: 900px) {
-        .hero-strip {
+        .hero-grid {
             grid-template-columns: 1fr;
         }
         .hero-title {
-            font-size: 2.35rem;
+            font-size: 2.25rem;
         }
     }
 </style>
 """
 
 
-def render_card(title: str, body: str) -> None:
+def render_metric_card(title: str, value: str, body: str) -> None:
     st.markdown(
         f"""
-        <div class="metric-card">
-            <div class="metric-label">{title}</div>
-            <div class="metric-copy">{body}</div>
+        <div class="summary-card">
+            <div class="summary-label">{title}</div>
+            <div class="summary-value">{value}</div>
+            <div class="summary-copy">{body}</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -247,31 +301,48 @@ def resolve_sample(df: pd.DataFrame, selected_topic: str) -> tuple[str, str]:
     return str(row["topic"]), str(row["evidence_text"])
 
 
+def initialize_form_state(topics: list[str], df: pd.DataFrame) -> None:
+    if "selected_topic" not in st.session_state:
+        st.session_state["selected_topic"] = topics[0]
+    if "last_selected_topic" not in st.session_state:
+        st.session_state["last_selected_topic"] = st.session_state["selected_topic"]
+    if "topic_input" not in st.session_state or "evidence_input" not in st.session_state:
+        sample_topic, sample_evidence = resolve_sample(df, st.session_state["selected_topic"])
+        st.session_state["topic_input"] = sample_topic
+        st.session_state["evidence_input"] = sample_evidence
+
+
+def sync_selected_sample(df: pd.DataFrame) -> None:
+    selected_topic = st.session_state["selected_topic"]
+    sample_topic, sample_evidence = resolve_sample(df, selected_topic)
+    st.session_state["topic_input"] = sample_topic
+    st.session_state["evidence_input"] = sample_evidence
+    st.session_state["last_selected_topic"] = selected_topic
+
+
 def render_hero() -> None:
     st.markdown(APP_CSS, unsafe_allow_html=True)
     st.markdown(
         """
         <div class="hero-card">
-            <div class="hero-eyebrow">Legal NLP Demo</div>
+            <div class="hero-eyebrow">Legal NLP Presentation Demo</div>
             <div class="hero-title">The Legal Game</div>
             <div class="hero-copy">
-                A multi-agent legal debate simulator where a prosecutor advances a motion,
-                a defense agent rebuts it with opposing evidence, and a judge scores the exchange.
-                This interface is tuned for live demos: select a motion, launch the debate,
-                and inspect each round in a clear courtroom-style presentation.
+                Run a legal-style AI debate around a motion, inspect how each side argues, and review
+                round-by-round judging in a format built for presentations and live demos.
             </div>
-            <div class="hero-strip">
-                <div class="role-chip">
-                    <strong>Prosecutor</strong>
-                    Generates a support-side argument using the current topic, evidence, and the trained generator when available.
+            <div class="hero-grid">
+                <div class="role-panel">
+                    <div class="role-title">Prosecutor</div>
+                    <div class="role-copy">Builds a support-side case from the selected motion and supporting evidence.</div>
                 </div>
-                <div class="role-chip">
-                    <strong>Defense</strong>
-                    Retrieves oppose-side evidence and composes a rebuttal grounded in the debate corpus.
+                <div class="role-panel">
+                    <div class="role-title">Defense</div>
+                    <div class="role-copy">Retrieves opposing evidence and composes a structured counter-argument.</div>
                 </div>
-                <div class="role-chip">
-                    <strong>Judge</strong>
-                    Scores both sides on relevance, evidence use, coherence, specificity, and novelty to declare a winner.
+                <div class="role-panel">
+                    <div class="role-title">Judge</div>
+                    <div class="role-copy">Scores relevance, evidence use, coherence, specificity, and novelty to decide each round.</div>
                 </div>
             </div>
         </div>
@@ -283,10 +354,9 @@ def render_hero() -> None:
 def render_sidebar(df: pd.DataFrame, source_name: str) -> None:
     metadata = load_judge_metadata()
 
-    st.sidebar.markdown("## Debate Control")
-    st.sidebar.caption("Demo-first controls and project health summary")
+    st.sidebar.markdown("## Demo Snapshot")
+    st.sidebar.caption("Current corpus and judge metadata")
 
-    st.sidebar.markdown("### Corpus Snapshot")
     st.sidebar.metric("Rows", f"{len(df):,}")
     st.sidebar.metric("Topics", f"{df['topic'].nunique():,}")
     st.sidebar.metric("Source", source_name.replace("_", " ").title())
@@ -301,20 +371,19 @@ def render_sidebar(df: pd.DataFrame, source_name: str) -> None:
         st.sidebar.metric("Validation Accuracy", f"{metadata.get('validation_accuracy', 0) * 100:.2f}%")
         st.sidebar.metric("Training Rows", f"{metadata.get('training_rows', 0):,}")
 
-    st.sidebar.markdown("### Judge Logic")
-    st.sidebar.caption(
-        "Winner selection combines relevance, evidence usage, coherence, specificity, and novelty."
-    )
+    st.sidebar.markdown("### Decision Logic")
+    st.sidebar.caption("Displayed totals and winner use the same heuristic score path.")
 
 
 def render_round(round_data: dict) -> None:
     with st.expander(f"Round {round_data['round_index']} | Winner: {round_data['winner']}", expanded=True):
+        st.markdown('<div class="round-shell">', unsafe_allow_html=True)
         st.markdown(
             f"""
-            <div class="round-score">
-                <div class="score-pill"><strong>Prosecutor Score</strong> {round_data['prosecutor_score']:.4f}</div>
-                <div class="score-pill"><strong>Defense Score</strong> {round_data['defense_score']:.4f}</div>
-                <div class="score-pill"><strong>Round Winner</strong> {round_data['winner']}</div>
+            <div class="score-strip">
+                <div class="score-badge"><strong>Prosecutor</strong> {round_data['prosecutor_score']:.4f}</div>
+                <div class="score-badge"><strong>Defense</strong> {round_data['defense_score']:.4f}</div>
+                <div class="score-badge"><strong>Winner</strong> {round_data['winner']}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -328,6 +397,7 @@ def render_round(round_data: dict) -> None:
             st.markdown("#### Defense")
             st.write(round_data["defense_argument"])
             st.progress(max(0.0, min(1.0, round_data["defense_score"])))
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 def main() -> None:
@@ -348,71 +418,76 @@ def main() -> None:
 
     render_sidebar(df, source_name)
 
-    st.markdown('<div class="section-label">Debate Setup</div>', unsafe_allow_html=True)
-
     topics = sorted(df["topic"].dropna().unique().tolist())
-    default_topic = topics[0]
+    initialize_form_state(topics, df)
 
-    select_col, button_col = st.columns([4, 1], gap="medium")
-    with select_col:
-        selected_topic = st.selectbox("Sample topic", topics, index=0 if topics else None, label_visibility="collapsed")
-    with button_col:
-        use_sample = st.button("Use sample", use_container_width=True)
+    st.markdown('<div class="section-label">Debate Setup</div>', unsafe_allow_html=True)
+    st.markdown('<div class="surface-card">', unsafe_allow_html=True)
 
-    sample_topic, sample_evidence = resolve_sample(df, selected_topic or default_topic)
-
-    topic_default = sample_topic if use_sample or "topic_input" not in st.session_state else st.session_state["topic_input"]
-    evidence_default = sample_evidence if use_sample or "evidence_input" not in st.session_state else st.session_state["evidence_input"]
-
-    topic_input = st.text_input("Debate topic", value=topic_default, key="topic_input")
-    evidence_input = st.text_area(
-        "Evidence",
-        value=evidence_default,
-        height=140,
-        key="evidence_input",
-        help="You can use the sample evidence or replace it with your own supporting evidence.",
-    )
-
-    controls_left, controls_right = st.columns([1, 1], gap="large")
-    with controls_left:
-        rounds = st.slider("Number of rounds", min_value=1, max_value=4, value=2)
-    with controls_right:
-        st.markdown(
-            """
-            <div class="topic-note">
-                <strong>How to use this demo</strong><br>
-                Pick a sample motion, optionally edit the evidence, and run the debate.
-                The backend will preserve the current legal-debate pipeline and render the result here.
-            </div>
-            """,
-            unsafe_allow_html=True,
+    left_col, right_col = st.columns([1.1, 0.9], gap="large")
+    with left_col:
+        st.selectbox(
+            "Sample topic",
+            topics,
+            key="selected_topic",
+            on_change=sync_selected_sample,
+            args=(df,),
+            help="Selecting a sample topic immediately updates the debate topic and matching evidence.",
+        )
+        st.caption("Sample selection auto-fills the active debate topic. You can still edit the topic manually before running.")
+        topic_input = st.text_area(
+            "Debate topic",
+            key="topic_input",
+            height=110,
+            help="Edit the motion if you want to refine the selected sample before running the debate.",
         )
 
-    run_clicked = st.button("Run Debate", type="primary", use_container_width=True)
+    with right_col:
+        evidence_input = st.text_area(
+            "Supporting evidence",
+            key="evidence_input",
+            height=185,
+            help="This field is auto-filled from the selected sample topic and can be edited manually.",
+        )
+        controls_left, controls_right = st.columns([1, 1], gap="medium")
+        with controls_left:
+            rounds = st.slider("Rounds", min_value=1, max_value=4, value=2)
+        with controls_right:
+            st.markdown(
+                """
+                <div class="mini-note">
+                    <strong>How this works</strong>
+                    Pick a sample motion, optionally edit the topic or evidence, and then run the debate.
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        run_clicked = st.button("Run Debate", type="primary", use_container_width=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
     if not run_clicked:
-        st.info("Ready for a live demo. Select a topic and click `Run Debate`.")
+        st.info("Select a sample topic or edit the inputs manually, then click `Run Debate`.")
         return
 
     if not topic_input.strip():
         st.error("Enter a debate topic before running the app.")
         return
 
-    active_evidence = evidence_input.strip() or sample_evidence
-    if not active_evidence:
+    if not evidence_input.strip():
         st.error("Evidence is required to launch the debate.")
         return
 
     with st.spinner("Running prosecutor, defense, and judge agents..."):
-        debate = run_debate(topic=topic_input.strip(), evidence=active_evidence, rounds=rounds)
+        debate = run_debate(topic=topic_input.strip(), evidence=evidence_input.strip(), rounds=rounds)
 
     st.markdown('<div class="section-label">Debate Outcome</div>', unsafe_allow_html=True)
     st.markdown(
         f"""
         <div class="winner-card">
-            <div class="winner-title">Overall Winner</div>
+            <div class="winner-label">Overall Winner</div>
             <div class="winner-name">{debate['overall_winner']}</div>
-            <div class="winner-sub">
+            <div class="winner-copy">
                 Prosecutor round wins: {debate['scoreboard']['prosecutor_round_wins']}
                 &nbsp;&nbsp;|&nbsp;&nbsp;
                 Defense round wins: {debate['scoreboard']['defense_round_wins']}
@@ -422,27 +497,25 @@ def main() -> None:
         unsafe_allow_html=True,
     )
 
-    card_col1, card_col2, card_col3 = st.columns(3, gap="large")
-    with card_col1:
-        st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-        st.markdown('<div class="metric-label">Selected Topic</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="metric-copy">{debate["topic"]}</div>', unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-    with card_col2:
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <div class="metric-label">Input Evidence</div>
-                <div class="metric-copy">{debate['input_evidence']}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
+    summary_col1, summary_col2, summary_col3, summary_col4 = st.columns(4, gap="large")
+    with summary_col1:
+        render_metric_card("Winner", debate["overall_winner"], "Final outcome across all completed rounds.")
+    with summary_col2:
+        render_metric_card(
+            "Round Split",
+            f"{debate['scoreboard']['prosecutor_round_wins']} / {debate['scoreboard']['defense_round_wins']}",
+            "Displayed as prosecutor wins versus defense wins.",
         )
-    with card_col3:
-        render_card(
-            "Judge Notes",
-            "Scores combine topical relevance, evidence cues, specificity, coherence, and novelty across rounds.",
-        )
+    with summary_col3:
+        render_metric_card("Rounds", str(len(debate["rounds_data"])), "Total rounds executed in this debate run.")
+    with summary_col4:
+        render_metric_card("Judge Basis", "Heuristic", "Winner matches the displayed total scores in each round.")
+
+    detail_col1, detail_col2 = st.columns([1.05, 0.95], gap="large")
+    with detail_col1:
+        render_metric_card("Selected Topic", debate["topic"], "The active motion sent to the debate engine.")
+    with detail_col2:
+        render_metric_card("Input Evidence", debate["input_evidence"], "The supporting evidence used to initialize the prosecutor.")
 
     st.markdown('<div class="section-label">Round Breakdown</div>', unsafe_allow_html=True)
     for round_data in debate["rounds_data"]:
@@ -451,12 +524,11 @@ def main() -> None:
     st.markdown('<div class="section-label">Model Basis</div>', unsafe_allow_html=True)
     st.markdown(
         """
-        <div class="panel-card">
+        <div class="surface-card">
             <strong>Current demo stack</strong><br>
             Prosecutor generation uses the fine-tuned FLAN-T5 prosecutor when present, the defense uses
-            retrieval-backed counter-argument selection, and the judge combines heuristic scoring with an
-            optional weakly trained classifier. This interface is a presentation wrapper around the same
-            backend used by the CLI pipeline.
+            retrieval-backed counter-argument selection, and the judge uses the current heuristic scoring path
+            so displayed totals and declared winners remain consistent during the demo.
         </div>
         """,
         unsafe_allow_html=True,
